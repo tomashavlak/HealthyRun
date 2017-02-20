@@ -5,10 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class AddScene : MonoBehaviour {
 
+	public string scene;
 	// Use this for initialization
 	void Start () {
+		
 		Debug.Log (Screen.width);
 		Debug.Log (Screen.height);
-		SceneManager.LoadScene("MenuGame01", LoadSceneMode.Additive);
+		SceneManager.LoadScene(scene, LoadSceneMode.Additive);
 	}
 }
