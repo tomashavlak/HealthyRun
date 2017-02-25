@@ -32,7 +32,6 @@ public class player : MonoBehaviour
 		if (coll.gameObject.tag == "RED") {
 			Destroy (coll.gameObject);
 			ScoreSync.collision++;
-			//Application.LoadLevel (Application.loadedLevel);
 		}
 	}
 }

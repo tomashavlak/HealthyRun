@@ -44,4 +44,8 @@ public class StartButton : MonoBehaviour {
 		PlayerPrefs.DeleteKey ("FbId");
 		PlayerPrefs.DeleteKey ("FbImg");
 	}
+    public void ClearScore()
+    {
+        PlayerPrefs.DeleteKey("maxScore");
+    }
 }
