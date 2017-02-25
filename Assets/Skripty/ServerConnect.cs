@@ -21,23 +21,31 @@ public class ServerConnect : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		string FbId = PlayerPrefs.GetString ("FbId");
-
-		if (FbId.Length > 0) {
-			this.url = "https://graph.facebook.com/" + FbId + "/picture?width=150&height=150";
-			StartCoroutine (changeButton());
+        Debug.Log("script start");
+		string FbImg = PlayerPrefs.GetString ("FbImg");
+		if (FbImg.Length > 0) {
+			Sprite sprite = TextureStore.ReadTextureFromPlayerPrefs ("FbId");
+			applyTexture (sprite);
+		} else {
+			string FbId = PlayerPrefs.GetString ("FbId");
+			if (FbId.Length > 0) {
+				this.url = "https://graph.facebook.com/" + FbId + "/picture?width=150&height=150";
+				StartCoroutine (changeButton());
+			}
 		}
 		GameObject go = GameObject.Find("SocketIO");
 		socket = go.GetComponent<SocketIOComponent>();
 		FBtn = GetComponent<Button>();
-	}
+        Debug.Log("script end");
+    }
 
 	public void loadData() {
-		
-		socket.Connect ();
+        Debug.Log("loaddata start");
+        socket.Connect ();
 		socket.On("sesId", sesIdMethod);
 		socket.On("data", dataUse);
-	}
+        Debug.Log("loaddata end");
+    }
 
 	public void sesIdMethod(SocketIOEvent e) {
 		JSONObject send = new JSONObject (JSONObject.Type.OBJECT);
@@ -75,11 +83,14 @@ public class ServerConnect : MonoBehaviour {
 		Debug.Log (www.texture);
 
 		sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f), 1.0f);
+		TextureStore.WriteTextureToPlayerPrefs ("FbImg", sprite);
+		applyTexture (sprite);
+		}
 
+	private void applyTexture(Sprite sprite) {
 		GameObject btn = GameObject.Find ("FBtn");
-
 		btn.GetComponent<SpriteRenderer> ().sprite = sprite;
 		btn.GetComponent<Button> ().interactable = false;
-		}
+	}
 
 }

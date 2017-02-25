@@ -39,4 +39,9 @@ public class StartButton : MonoBehaviour {
 			Debug.Log ("unpaused");
 		}
 	}
+
+	public void ClearFbData() {
+		PlayerPrefs.DeleteKey ("FbId");
+		PlayerPrefs.DeleteKey ("FbImg");
+	}
 }
