@@ -9,5 +9,11 @@ public class Obstacle : MonoBehaviour {
     void Start()
     {
         GetComponent<Rigidbody2D>().velocity = velocity;
+        InvokeRepeating("updateSpeed", 0f, 1f);
+    }
+
+    private void updateSpeed() {
+        GetComponent<Rigidbody2D>().velocity = GameSync.gameSpeed;
+        GameSync.gameSpeed.y = GameSync.gameSpeed.y - 0.0003f;
     }
 }

@@ -30,7 +30,8 @@ public class player : MonoBehaviour
 	{
 		Debug.Log ("KOLIZE");
 		if (coll.gameObject.tag == "RED") {
-			Destroy (coll.gameObject);
+			Destroy (coll.gameObject,0.1f);
+            coll.gameObject.GetComponent<Renderer>().material.SetFloat("_Threshold", (float)(0.2 + Mathf.Sin(Time.time) * 0.2));
 			ScoreSync.collision++;
 		}
 	}

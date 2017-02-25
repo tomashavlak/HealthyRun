@@ -5,14 +5,25 @@ public class GeneratePartMap : MonoBehaviour {
 
     public GameObject partA;
     public GameObject partB;
+    
 
     // Use this for initialization
     void Start()
     {
-        InvokeRepeating("CreateObstacle", 1f, 1.5f);
+        generateNewMap();
     }
 
-    void CreateObstacle()
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        Debug.Log("KOLIZE MAP");
+        Debug.Log(coll.gameObject.tag);
+        if (coll.gameObject.tag == "MAP")
+        {
+            generateNewMap();
+        }
+    }
+
+    void generateNewMap()
     {
         System.Random rn = new System.Random();
         int part = rn.Next(1, 10);
