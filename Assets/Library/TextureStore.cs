@@ -13,7 +13,7 @@ public class TextureStore
 		PlayerPrefs.SetInt (tag + "-width", (int)tex.width);
 		PlayerPrefs.SetInt (tag + "-height", (int)tex.height);
 
-		byte[] texByte = tex.EncodeToPNG ();
+        byte[] texByte = tex.EncodeToPNG ();
 		string base64Tex = System.Convert.ToBase64String (texByte);
 
 		PlayerPrefs.SetString (tag, base64Tex);
@@ -27,7 +27,7 @@ public class TextureStore
 		int textureWidth = PlayerPrefs.GetInt (tag + "-width");
 		int textureHeight = PlayerPrefs.GetInt (tag + "-height");
 
-		if (!string.IsNullOrEmpty (base64Tex)) {
+        if (!string.IsNullOrEmpty (base64Tex)) {
 			// convert it to byte array
 			byte[] texByte = System.Convert.FromBase64String (base64Tex);
 			Texture2D tex = new Texture2D ((int)textureWidth, (int)textureHeight);
@@ -35,10 +35,9 @@ public class TextureStore
 			//load texture from byte array
 			if (tex.LoadImage (texByte)) {
 				Sprite sprite = Sprite.Create(tex, new Rect(0, 0, (float)textureWidth, (float)textureHeight), new Vector2(0.5f, 0.5f), 1.0f);
-				return sprite;
+                return sprite;
 			}
 		}
-
-		return null;
+        return null;
 	}
 }
