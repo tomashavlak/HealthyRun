@@ -34,5 +34,9 @@ public class player : MonoBehaviour
             coll.gameObject.GetComponent<Renderer>().material.SetFloat("_Threshold", (float)(0.2 + Mathf.Sin(Time.time) * 0.2));
 			ScoreSync.collision++;
 		}
+        if (coll.gameObject.tag == "WHITE")
+        {
+            GameSync.endGame = true;
+        }
 	}
 }

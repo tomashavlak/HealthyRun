@@ -7,6 +7,7 @@ public class StartGame : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         GameObject.Find("bestScore").GetComponent<UnityEngine.UI.Text>().text = "Best: " + PlayerPrefs.GetInt("maxScore");
+        ScoreSync.score = 0;
 	}
 	
 	// Update is called once per frame

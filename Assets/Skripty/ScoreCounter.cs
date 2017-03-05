@@ -48,8 +48,9 @@ public class ScoreCounter : MonoBehaviour {
     {
         Debug.Log("Score down");
         ScoreSync.score = ScoreSync.score - (ScoreSync.scoreMultiplier * 50);
-        if (ScoreSync.score < 1)
+        if (ScoreSync.score < 0)
         {
+            Debug.Log("END END END");
             GameSync.endGame = true;
         }
     }

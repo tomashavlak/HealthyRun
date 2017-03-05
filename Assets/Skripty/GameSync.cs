@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class GameSync : MonoBehaviour {
 
@@ -14,7 +16,15 @@ public class GameSync : MonoBehaviour {
 	void Update () {
         if (GameSync.endGame == true)
         {
+            Debug.Log("KONEC V SYNC");
             ScoreCounter.saveScore();
+            StartCoroutine(ServerConnect.saveScore());
+
+            SceneManager.LoadScene("MenuPaused", LoadSceneMode.Additive);
+            SceneManager.UnloadScene("GameLayout");
+            Time.timeScale = 0;
+            GameSync.endGame = false;
+            ScoreSync.score = 0;
         }
 	}
 }

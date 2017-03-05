@@ -47,5 +47,6 @@ public class StartButton : MonoBehaviour {
     public void ClearScore()
     {
         PlayerPrefs.DeleteKey("maxScore");
+        StartCoroutine (ServerConnect.saveScore());
     }
 }
