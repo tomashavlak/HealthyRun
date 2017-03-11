@@ -26,7 +26,7 @@ public class Scroller : MonoBehaviour {
             RectTransform panelClone = Instantiate(tpl);
             panelClone.GetComponent<Transform>().transform.parent = GameObject.Find("ScrollPanel").transform;
             panelClone.GetComponent<Transform>().transform.localScale = new Vector3(1f, 1f, 0);
-            panelClone.GetComponent<Transform>().transform.localPosition = new Vector2(i * 720, 0);
+            panelClone.GetComponent<Transform>().transform.localPosition = new Vector2(i * 720, -70);
             panels.Add(panelClone);
             
             distance.Add(0);
@@ -56,6 +56,19 @@ public class Scroller : MonoBehaviour {
         if (!dragging)
         {
             CenterPanel(minButtonNum * -bttnDistance);
+            for (int i = 0; i < panels.Count; i++)
+            {
+                 ScrollRect scroll = panels[i].Find("Panel").GetComponent<ScrollRect>();
+                if (i == minButtonNum)
+                {
+                    scroll.enabled = enabled;
+                }
+                else
+                {
+                    scroll.enabled = !enabled;
+                    panels[i].anchoredPosition = new Vector2(panels[i].anchoredPosition.x, Mathf.Lerp(panels[i].anchoredPosition.y, -75, Time.deltaTime * 15f));
+                }
+            }
         }
     }
 

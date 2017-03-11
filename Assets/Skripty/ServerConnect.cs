@@ -73,7 +73,7 @@ public class ServerConnect : MonoBehaviour {
 
 		Sprite sprite = new Sprite ();
 
-		sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f), 1.0f);
+		sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f), 1f);
 		TextureStore.WriteTextureToPlayerPrefs ("FbImg", sprite);
 		applyTexture (sprite);
 	}
