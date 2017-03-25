@@ -2,7 +2,10 @@
 using UnityEngine.UI;
 using System.Collections;
 using SocketIO;
-
+using System.Collections.Generic;
+using System;
+using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 public class sesIdObject
 {
@@ -113,6 +116,81 @@ public class ServerConnect : MonoBehaviour {
             Debug.Log(www.data);
         }
 
+    }
+
+    public static IEnumerator getWiki(Action doLast = null)
+    {
+        string wikiJson = PlayerPrefs.GetString("wiki");
+        int day = new DateTime().Day;
+
+        if (wikiJson.Length < 1 || PlayerPrefs.GetInt("day") < day)
+        {
+            Debug.Log("WWW WIKI");
+            string fbId = PlayerPrefs.GetString("FbId");
+            string url = "http://healthy-run.tomashavlak.eu/getWiki";
+            WWWForm data = new WWWForm();
+            data.AddField("id", fbId);
+            WWW www = new WWW(url, data);
+            yield return www;
+            wikiJson = www.text;
+            PlayerPrefs.SetString("wiki", wikiJson);
+            PlayerPrefs.SetInt("day", day);
+        }
+
+        JSONObject obj = new JSONObject(wikiJson);
+        foreach (JSONObject banner in obj.list)
+        {
+            WikiArr arr = new WikiArr();
+            arr.id = banner.GetField("id").str;
+            arr.name = Regex.Unescape(banner.GetField("name").str);
+            arr.text = Regex.Unescape(banner.GetField("text").str);
+            arr.font_size = int.Parse(banner.GetField("font_size").str);
+            arr.img = Regex.Unescape(banner.GetField("img").str);
+            Scroller.wiki.Add(arr);
+        }
+        if (doLast != null)
+        {
+            Scroller.preparingWikiArr = false;
+            doLast();
+        }
+    }
+
+    public static IEnumerator getKnowBase(Action doLast = null)
+    {
+        string knowJson = PlayerPrefs.GetString("knowJson");
+        int day = new DateTime().Day;
+
+        if (knowJson.Length < 1 || PlayerPrefs.GetInt("day") < day)
+        {
+            Debug.Log("WWW WIKI");
+            string fbId = PlayerPrefs.GetString("FbId");
+            string url = "http://healthy-run.tomashavlak.eu/getYouKnowThat";
+            WWWForm data = new WWWForm();
+            data.AddField("id", fbId);
+            WWW www = new WWW(url, data);
+            yield return www;
+            knowJson = www.text;
+            Debug.Log(knowJson);
+            PlayerPrefs.SetString("knowJson", knowJson);
+            PlayerPrefs.SetInt("day", day);
+        }
+
+        JSONObject obj = new JSONObject(knowJson);
+        foreach (JSONObject banner in obj.list)
+        {
+            BannerArr arr = new BannerArr();
+            arr.id = banner.GetField("id").str;
+            arr.name = Regex.Unescape(banner.GetField("name").str);
+            arr.text = Regex.Unescape(banner.GetField("text").str);
+            Banner.banners.Add(arr);
+        }
+        
+        //Banner.banners = bannerArr;
+        if (doLast != null)
+        {
+            Scroller.preparingWikiArr = false;
+            doLast();
+        }
     }
 
     private void applyTexture(Sprite sprite) {

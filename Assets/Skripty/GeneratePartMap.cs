@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GeneratePartMap : MonoBehaviour {
 
-    public GameObject partA;
-    public GameObject partB;
+    public List<GameObject> partA;
+    public List<GameObject> partB;
+    private int partsNum = 2;
     
 
     // Use this for initialization
@@ -15,8 +17,6 @@ public class GeneratePartMap : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        Debug.Log("KOLIZE MAP");
-        Debug.Log(coll.gameObject.tag);
         if (coll.gameObject.tag == "MAP")
         {
             generateNewMap();
@@ -26,28 +26,23 @@ public class GeneratePartMap : MonoBehaviour {
     void generateNewMap()
     {
         System.Random rn = new System.Random();
-        int part = rn.Next(1, 10);
-        Debug.Log(part);
-
-        switch (part)
+        int parts = (int)Mathf.Round(ScoreSync.score / 1000) + 1;
+        if (parts > partsNum)
+        {
+            parts = partsNum;
+        }
+        int part = 0;
+        switch (rn.Next(1, parts+1))
         {
             case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-                Instantiate(partA);
-            break;
-            case 6:
-            case 7:
-            case 8:
-            case 9:
-            case 10:
-                Instantiate(partB);
+                part = rn.Next(0, partA.Count);
+                Instantiate(partA[part]);
                 break;
-            default:
+            case 2:
+                part = rn.Next(0, partB.Count);
+                Instantiate(partB[part]);
                 break;
         }
-        
+
     }
 }

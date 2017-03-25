@@ -14,6 +14,6 @@ public class Obstacle : MonoBehaviour {
 
     private void updateSpeed() {
         GetComponent<Rigidbody2D>().velocity = GameSync.gameSpeed;
-        GameSync.gameSpeed.y = GameSync.gameSpeed.y - 0.0003f;
+        GameSync.gameSpeed.y = GameSync.gameSpeed.y - 0.001f;
     }
 }

@@ -19,17 +19,25 @@ public class StartButton : MonoBehaviour {
 	public void UnloadScene(string hrSceneName){
 		SceneManager.UnloadScene (hrSceneName);
 	}
-	public void PauseScene( string onPauseScene) {
+	public void PauseScene( string onPauseScene = null) {
 		
 		Debug.Log (paused);
+        Debug.Log(Time.timeScale);
 		paused = !paused;
 
 		if (paused) {
 			Time.timeScale = 1;
-			SceneManager.UnloadScene (onPauseScene);
+            if (onPauseScene != null)
+            {
+                SceneManager.UnloadScene(onPauseScene);
+            }
+			
 		} else if (!paused) {
 			Time.timeScale = 0;
-			SceneManager.LoadScene(onPauseScene, LoadSceneMode.Additive);
+            if (onPauseScene != null)
+            {
+                SceneManager.LoadScene(onPauseScene, LoadSceneMode.Additive);
+            }
 		}
 	}
 

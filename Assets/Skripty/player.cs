@@ -10,8 +10,10 @@ public class player : MonoBehaviour
 
 	void Start ()
 	{
-		
-	}
+        Time.timeScale = 0;
+        SceneManager.LoadScene("GameLayout", LoadSceneMode.Additive);
+        SceneManager.LoadScene("EduBanner", LoadSceneMode.Additive);
+    }
 	
 	// Update is called once per frame
 	void Update ()
