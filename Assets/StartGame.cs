@@ -9,7 +9,10 @@ public class StartGame : MonoBehaviour {
         GameObject.Find("bestScore").GetComponent<UnityEngine.UI.Text>().text = "Best: " + PlayerPrefs.GetInt("maxScore");
         ScoreSync.score = 0;
 
+        SoundController.InitSettings();
         ServerConnect.getWiki();
+
+        
 	}
 	
 	// Update is called once per frame

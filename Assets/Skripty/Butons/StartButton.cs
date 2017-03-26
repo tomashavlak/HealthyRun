@@ -1,11 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class StartButton : MonoBehaviour {
-	bool paused = true;
+    public bool isSettings;
+    public GameObject text;
+
+    bool paused = true;
 	void Start () {
 		paused = true;
+        if (isSettings)
+        {
+            if (GameSync.sound)
+            {
+                text.GetComponent<Text>().text = "Vypnout zvuk";
+            }
+            else
+            {
+                text.GetComponent<Text>().text = "Zapnout zvuk";
+            }
+        }
 	}
 	public void ChangeScene( string hrSceneName) {
 		SceneManager.LoadScene(hrSceneName, LoadSceneMode.Single);
@@ -56,5 +71,21 @@ public class StartButton : MonoBehaviour {
     {
         PlayerPrefs.DeleteKey("maxScore");
         StartCoroutine (ServerConnect.saveScore());
+    }
+
+    public void SoundBtn(GameObject text)
+    {
+        if (GameSync.sound)
+        {
+            PlayerPrefs.SetString("sound", "OFF");
+            GameSync.sound = false;
+            text.GetComponent<Text>().text = "Zapnout zvuk";
+
+        } else
+        {
+            PlayerPrefs.SetString("sound", "ON");
+            GameSync.sound = true;
+            text.GetComponent<Text>().text = "Vypnout zvuk";
+        }
     }
 }

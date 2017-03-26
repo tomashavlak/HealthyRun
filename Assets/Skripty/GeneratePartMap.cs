@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class GeneratePartMap : MonoBehaviour {
 
+    public GameObject tutorial;
     public List<GameObject> partA;
     public List<GameObject> partB;
     private int partsNum = 2;
@@ -25,24 +26,31 @@ public class GeneratePartMap : MonoBehaviour {
 
     void generateNewMap()
     {
-        System.Random rn = new System.Random();
-        int parts = (int)Mathf.Round(ScoreSync.score / 1000) + 1;
-        if (parts > partsNum)
+        if (PlayerPrefs.GetString("Skip") == "TRUE")
         {
-            parts = partsNum;
+            System.Random rn = new System.Random();
+            int parts = (int)Mathf.Round(ScoreSync.score / 1000) + 1;
+            if (parts > partsNum)
+            {
+                parts = partsNum;
+            }
+            int part = 0;
+            switch (rn.Next(1, parts + 1))
+            {
+                case 1:
+                    part = rn.Next(0, partA.Count);
+                    Instantiate(partA[part]);
+                    break;
+                case 2:
+                    part = rn.Next(0, partB.Count);
+                    Instantiate(partB[part]);
+                    break;
+            }
         }
-        int part = 0;
-        switch (rn.Next(1, parts+1))
+        else
         {
-            case 1:
-                part = rn.Next(0, partA.Count);
-                Instantiate(partA[part]);
-                break;
-            case 2:
-                part = rn.Next(0, partB.Count);
-                Instantiate(partB[part]);
-                break;
+            PlayerPrefs.SetString("Skip", "TRUE");
+            Instantiate(tutorial);
         }
-
     }
 }

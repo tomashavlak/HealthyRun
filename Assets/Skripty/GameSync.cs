@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameSync : MonoBehaviour {
 
     public static bool endGame = false;
+    public static bool sound = false;
     public static Vector2 gameSpeed = new Vector2(0 ,-2);
 	void Start () {
 		
@@ -23,7 +24,6 @@ public class GameSync : MonoBehaviour {
             SceneManager.LoadScene("MenuPaused", LoadSceneMode.Additive);
             SceneManager.UnloadScene("GameLayout");
             Time.timeScale = 0;
-            GameSync.endGame = false;
             ScoreSync.score = 0;
         }
 	}
