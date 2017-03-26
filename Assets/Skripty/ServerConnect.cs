@@ -56,7 +56,7 @@ public class ServerConnect : MonoBehaviour {
 
 		socket.Emit ("joinRoom", send);
 
-		Application.OpenURL ("http://healthy-run.tomashavlak.cz/?room=" + e.data.GetField("sesId").str);
+		Application.OpenURL ("http://healthy-run.tomashavlak.eu/login?room=" + e.data.GetField("sesId").str);
 	}
 
 	public void dataUse(SocketIOEvent e) {
