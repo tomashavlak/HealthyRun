@@ -2,12 +2,13 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class player : MonoBehaviour
+public class Player : MonoBehaviour
 {
 
 	private float pointer_x;
 	ScoreCounter score;
 
+    // přidá na začátku hry layout a spustí edukační banner
 	void Start ()
 	{
         Time.timeScale = 0;
@@ -15,7 +16,7 @@ public class player : MonoBehaviour
         SceneManager.LoadScene("EduBanner", LoadSceneMode.Additive);
     }
 	
-	// Update is called once per frame
+    // nastavuje a překresluje hráčovu pozici na mapě
 	void Update ()
 	{
 		if (Camera.main.ScreenToWorldPoint (Input.mousePosition).y < 4) {
@@ -28,9 +29,9 @@ public class player : MonoBehaviour
 		}
 	}
 
+    // hlídá kolizi s objekty a vyhodnocuje akci
 	void OnCollisionEnter2D (Collision2D coll)
 	{
-		Debug.Log ("KOLIZE");
 		if (coll.gameObject.tag == "RED") {
 			Destroy (coll.gameObject,0.1f);
             coll.gameObject.GetComponent<Renderer>().material.SetFloat("_Threshold", (float)(0.2 + Mathf.Sin(Time.time) * 0.2));

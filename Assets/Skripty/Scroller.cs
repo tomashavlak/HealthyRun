@@ -32,6 +32,7 @@ public class Scroller : MonoBehaviour {
     private bool loadingFailed = false;
     private bool centered = false;
 
+    // nastaví veškeré proměnné na defaultní hodnoty, spustí čas
     void Start()
     {
         dragging = false;
@@ -53,6 +54,7 @@ public class Scroller : MonoBehaviour {
         StartCoroutine(ServerConnect.getWiki(initWiki));
     }
 
+    // vykresluje panely wiki, dává jim data a pozucuje je
     void initWiki()
     {
         try
@@ -90,7 +92,7 @@ public class Scroller : MonoBehaviour {
         }
         catch (System.Exception e)
         {
-            Debug.LogError(e);
+            // pokud nastane chyba zobrazí chybovou hlášku
             loadingFailed = true;
             float slideToCenter = Mathf.Lerp(0f, 0, Time.deltaTime * 3f);
             Vector2 slide = new Vector2(slideToCenter, 0f);
@@ -98,6 +100,7 @@ public class Scroller : MonoBehaviour {
         }
     }
 
+    // vykresluje obrázky do panelů
     private IEnumerator changeImg(string url, Transform panelClone, string wikiImgId)
     {
         print(url);
@@ -111,6 +114,7 @@ public class Scroller : MonoBehaviour {
         panelClone.FindChild("Img").GetComponent<Image>().sprite = sprite;
     }
 
+    // obstarává slidování púanelů
     void Update()
     {
         if (! loadingFailed)
@@ -127,9 +131,7 @@ public class Scroller : MonoBehaviour {
 
             if (!dragging)
             {
-                print("time to autoscroll");
-                print(panels.Count);
-                print((minButtonNum * -bttnDistance).ToString() + "=" + panel.anchoredPosition.x.ToString());
+                //pokud se právě nepřetahuje panel 
                 CenterPanel(minButtonNum * -bttnDistance);
                 for (int i = 0; i < panels.Count; i++)
                 {
@@ -137,6 +139,7 @@ public class Scroller : MonoBehaviour {
                     RectTransform panelSlider = panels[i].Find("Panel").GetComponent<RectTransform>();
                     if (i == minButtonNum)
                     {
+                        //povolí svislé tažení a maximální a minimální pozici
                         scroll.enabled = enabled;
                         if (panelSlider.anchoredPosition.y < 0)
                         {
@@ -149,6 +152,7 @@ public class Scroller : MonoBehaviour {
                     }
                     else
                     {
+                        //deaktivuje svislé tažení a srovná panel
                         scroll.enabled = !enabled;
                         panelSlider.anchoredPosition = new Vector2(0, Mathf.Lerp(panelSlider.anchoredPosition.y, 0, Time.deltaTime * 5f));
                     }
@@ -157,6 +161,7 @@ public class Scroller : MonoBehaviour {
         }
     }
 
+    // centralizuje plynule aktuální pannel
     void CenterPanel(int newPos)
     {
         if (Mathf.Round(panel.anchoredPosition.x) != newPos)
@@ -167,6 +172,7 @@ public class Scroller : MonoBehaviour {
         }
     }
 
+    // start/stop tažení
     public void StartStopDragging()
     {
         dragging = !dragging;

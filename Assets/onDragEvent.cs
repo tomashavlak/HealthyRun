@@ -5,13 +5,10 @@ using UnityEngine.EventSystems;
 
 public class onDragEvent : MonoBehaviour {
 
+    // nastaví hlídání drag eventu
     void Start()
     {
         EventTrigger trigger = GetComponent<EventTrigger>();
-        /*EventTrigger.Entry entry = new EventTrigger.Entry();
-        entry.eventID = EventTriggerType.PointerDown;
-        entry.callback.AddListener((data) => { OnPointerDownDelegate((PointerEventData)data); });
-        trigger.triggers.Add(entry);*/
         EventTrigger.Entry startDragging = new EventTrigger.Entry();
         startDragging.eventID = EventTriggerType.BeginDrag;
         startDragging.callback.AddListener((data) => { StartStopDragging(); });
@@ -23,14 +20,9 @@ public class onDragEvent : MonoBehaviour {
         trigger.triggers.Add(stopDragging);
     }
 
+    //metoda měnící status drag eventu
     public void StartStopDragging()
     {
         Scroller.dragging = !Scroller.dragging;
-        Debug.Log("Dragging START/STOP");
-    }
-
-    public void OnPointerDownDelegate(PointerEventData data)
-    {
-        Debug.Log("OnPointerDownDelegate called.");
     }
 }

@@ -1,16 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.SceneManagement;
-
 
 public class AddScene : MonoBehaviour {
 
 	public string scene;
-	// Use this for initialization
+    //přidá scénu, která je definována v unity editoru
 	void Start () {
-		
-		Debug.Log (Screen.width);
-		Debug.Log (Screen.height);
 		SceneManager.LoadScene(scene, LoadSceneMode.Additive);
 	}
 }

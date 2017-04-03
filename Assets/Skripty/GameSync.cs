@@ -9,15 +9,11 @@ public class GameSync : MonoBehaviour {
     public static bool endGame = false;
     public static bool sound = false;
     public static Vector2 gameSpeed = new Vector2(0 ,-2);
-	void Start () {
-		
-	}
 	
-	// Update is called once per frame
+	// jakmile znistí konec hry spustí obrazovku pro pauzu a zastaví čas. Odebere Layout hry
 	void Update () {
         if (GameSync.endGame == true)
         {
-            Debug.Log("KONEC V SYNC");
             ScoreCounter.saveScore();
             StartCoroutine(ServerConnect.saveScore());
 

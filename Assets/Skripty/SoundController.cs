@@ -13,6 +13,7 @@ class SoundController : MonoBehaviour
         
     }
 
+    // počíteční nastavení zvuku
     public static void InitSettings()
     {
         if (PlayerPrefs.GetString("sound") == "OFF")
@@ -25,6 +26,7 @@ class SoundController : MonoBehaviour
         }
     }
 
+    // aktualizuje hlasitost zvuku
     void Update()
     {
         if (GameSync.sound)

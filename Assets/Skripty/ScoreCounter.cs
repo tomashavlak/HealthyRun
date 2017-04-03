@@ -9,11 +9,12 @@ public class ScoreSync : MonoBehaviour {
 }
 
 public class ScoreCounter : MonoBehaviour {
-	void Start () {
+    // nastaví časovač přidávání skóre
+    void Start () {
 		InvokeRepeating("addScore", 0f, 0.2f);
 	}
 	
-	// Update is called once per frame
+	// aktualuzuje skóre
 	void Update () {
 		GameObject scoreObj = GameObject.Find("ScoreCounter");
 		scoreObj.GetComponent<UnityEngine.UI.Text> ().text = ScoreSync.score.ToString ();
@@ -29,6 +30,7 @@ public class ScoreCounter : MonoBehaviour {
         }
     }
 
+    //uloží skóre pokud je vyšší, než nejvyšší skóre
     public static void saveScore() {
         int max = PlayerPrefs.GetInt("maxScore");
         if (max < ScoreSync.score)
@@ -37,20 +39,22 @@ public class ScoreCounter : MonoBehaviour {
         }
     }
 
+    //přidá skóre za čas
 	private void addScore() {
 		ScoreSync.score = ScoreSync.score + ScoreSync.scoreMultiplier;
 	}
 
+    // přidá skóre za srážku
 	public void onCollision() {
 		ScoreSync.score = ScoreSync.score + (ScoreSync.scoreMultiplier * 10);
 	}
+
+    // ubere skóre popřípadě uklončí hru
     public void onFailCollision()
     {
-        Debug.Log("Score down");
         ScoreSync.score = ScoreSync.score - (ScoreSync.scoreMultiplier * 50);
         if (ScoreSync.score < 0)
         {
-            Debug.Log("END END END");
             GameSync.endGame = true;
         }
     }

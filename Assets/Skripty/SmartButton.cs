@@ -3,13 +3,14 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class StartButton : MonoBehaviour {
+public class SmartButton : MonoBehaviour {
     public bool isSettings;
     public GameObject text;
 
     bool paused = true;
 	void Start () {
 		paused = true;
+        //pokud se jedná o nastavení ovládá btn
         if (isSettings)
         {
             if (GameSync.sound)
@@ -22,22 +23,24 @@ public class StartButton : MonoBehaviour {
             }
         }
 	}
+
+    // mění scénu
 	public void ChangeScene( string hrSceneName) {
 		SceneManager.LoadScene(hrSceneName, LoadSceneMode.Single);
-		Debug.Log (hrSceneName);
 	}
 
+    // přidá scénu
 	public void AddScene(string hrSceneName) {
 		SceneManager.LoadScene(hrSceneName, LoadSceneMode.Additive);
-		Debug.Log (hrSceneName);
 	}
+
+    // odebere scénu
 	public void UnloadScene(string hrSceneName){
 		SceneManager.UnloadScene (hrSceneName);
 	}
+
+    // pozastaví hru
 	public void PauseScene( string onPauseScene = null) {
-		
-		Debug.Log (paused);
-        Debug.Log(Time.timeScale);
 		paused = !paused;
 
 		if (paused) {
@@ -56,23 +59,27 @@ public class StartButton : MonoBehaviour {
 		}
 	}
 
+    // spustí hru
 	public void UnpauseScene(string hrPause) {
 		if (hrPause == "true") {
 			Time.timeScale = 1;
-			Debug.Log ("unpaused");
 		}
 	}
 
+    // vyčistí fb data
 	public void ClearFbData() {
 		PlayerPrefs.DeleteKey ("FbId");
 		PlayerPrefs.DeleteKey ("FbImg");
 	}
+
+    // vynuluje skóre
     public void ClearScore()
     {
         PlayerPrefs.DeleteKey("maxScore");
         StartCoroutine (ServerConnect.saveScore());
     }
 
+    // ovládání zvuku
     public void SoundBtn(GameObject text)
     {
         if (GameSync.sound)

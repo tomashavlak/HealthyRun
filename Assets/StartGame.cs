@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StartGame : MonoBehaviour {
 
-	// Use this for initialization
+	// nastaví skóre a začne stahovat data ze serveru
 	void Start () {
         GameObject.Find("bestScore").GetComponent<UnityEngine.UI.Text>().text = "Best: " + PlayerPrefs.GetInt("maxScore");
         ScoreSync.score = 0;
@@ -13,10 +13,5 @@ public class StartGame : MonoBehaviour {
         ServerConnect.getWiki();
 
         
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
 	}
 }

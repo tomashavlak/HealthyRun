@@ -1,12 +1,13 @@
 ﻿// Author: OsmanSenol
 // URL: http://stackoverflow.com/questions/38816412/how-to-save-a-sprite-to-a-playerpref/41069642#41069642
+// bylo upraveno k možnosti využití v projektu
 
 using UnityEngine;
 using System.Collections;
 
 public class TextureStore
 {
-
+    // uloží texturu do paměti hry. převede obrázek do binární podoby a následně do base64
 	public static void WriteTextureToPlayerPrefs (string tag, Sprite sprite)
 	{
 		Texture2D tex = sprite.texture;
@@ -20,6 +21,7 @@ public class TextureStore
 		PlayerPrefs.Save ();
 	}
 
+    // vrátí uložený obrázek pokud existuje
 	public static Sprite ReadTextureFromPlayerPrefs (string tag)
 	{
 		// load string from playerpref

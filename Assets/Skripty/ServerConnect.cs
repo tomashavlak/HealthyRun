@@ -22,9 +22,8 @@ public class ServerConnect : MonoBehaviour {
 	private string url;
 
 
-	// Use this for initialization
+	// stáhne skóre a pokud je facebook zobrazí ikonu
 	void Start () {
-        Debug.Log("START");
         StartCoroutine(downloadScore());
 
 		string FbImg = PlayerPrefs.GetString ("FbImg");
@@ -35,7 +34,6 @@ public class ServerConnect : MonoBehaviour {
             string FbId = PlayerPrefs.GetString ("FbId");
 			if (FbId.Length > 0) {
 				this.url = "https://graph.facebook.com/" + FbId + "/picture?width=150&height=150";
-
 				StartCoroutine (changeButton());
 			}
 		}
@@ -44,29 +42,26 @@ public class ServerConnect : MonoBehaviour {
 		FBtn = GetComponent<Button>();
     }
 
+    // obsluha socket.io klienta
 	public void loadData() {
         socket.Connect ();
 		socket.On("sesId", sesIdMethod);
 		socket.On("data", dataUse);
     }
 
+    //příjem socketu s ID otevře browser
 	public void sesIdMethod(SocketIOEvent e) {
 		JSONObject send = new JSONObject (JSONObject.Type.OBJECT);
 		send.AddField ("room", e.data.GetField("sesId").str);
-
 		socket.Emit ("joinRoom", send);
-
-		Application.OpenURL ("http://healthy-run.tomashavlak.eu/login?room=" + e.data.GetField("sesId").str);
+        Application.OpenURL ("http://healthy-run.tomashavlak.cz/fb?room=" + e.data.GetField("sesId").str);
 	}
 
+    //příjem dat ze serveru
 	public void dataUse(SocketIOEvent e) {
 		this.url = "https://graph.facebook.com/" + e.data.GetField("id").str + "/picture?width=150&height=150";
-
 		string uID = e.data.GetField ("id").str;
 		PlayerPrefs.SetString("FbId", uID);
-
-
-		//this.changeButton (url);
 		StartCoroutine (changeButton());
 	}
 
@@ -101,23 +96,23 @@ public class ServerConnect : MonoBehaviour {
         
     }
 
+    // odešle skóre na server pokud je připojen facebook profil
     public static IEnumerator saveScore()
     {
         string fbId = PlayerPrefs.GetString("FbId");
         if (fbId.Length > 1)
         {
-            Debug.Log("SAVE=" + PlayerPrefs.GetInt("maxScore").ToString());
             string url = "http://healthy-run.tomashavlak.eu/saveScore";
             WWWForm data = new WWWForm();
             data.AddField("id", fbId);
             data.AddField("score", PlayerPrefs.GetInt("maxScore"));
             WWW www = new WWW(url, data);
             yield return www;
-            Debug.Log(www.data);
         }
 
     }
 
+    // stažení wiki a její parsování pomocí pluginu JSONObject
     public static IEnumerator getWiki(Action doLast = null)
     {
         string wikiJson = PlayerPrefs.GetString("wiki");
@@ -125,7 +120,6 @@ public class ServerConnect : MonoBehaviour {
 
         if (wikiJson.Length < 1 || PlayerPrefs.GetInt("day") < day)
         {
-            Debug.Log("WWW WIKI");
             string fbId = PlayerPrefs.GetString("FbId");
             string url = "http://healthy-run.tomashavlak.eu/getWiki";
             WWWForm data = new WWWForm();
@@ -155,6 +149,7 @@ public class ServerConnect : MonoBehaviour {
         }
     }
 
+    // stažení báze bannerů
     public static IEnumerator getKnowBase(Action doLast = null)
     {
         string knowJson = PlayerPrefs.GetString("knowJson");
@@ -162,7 +157,6 @@ public class ServerConnect : MonoBehaviour {
 
         if (knowJson.Length < 1 || PlayerPrefs.GetInt("day") < day)
         {
-            Debug.Log("WWW WIKI");
             string fbId = PlayerPrefs.GetString("FbId");
             string url = "http://healthy-run.tomashavlak.eu/getYouKnowThat";
             WWWForm data = new WWWForm();
@@ -170,7 +164,6 @@ public class ServerConnect : MonoBehaviour {
             WWW www = new WWW(url, data);
             yield return www;
             knowJson = www.text;
-            Debug.Log(knowJson);
             PlayerPrefs.SetString("knowJson", knowJson);
             PlayerPrefs.SetInt("day", day);
         }
@@ -193,6 +186,7 @@ public class ServerConnect : MonoBehaviour {
         }
     }
 
+    // aplikace textury
     private void applyTexture(Sprite sprite) {
 		GameObject btn = GameObject.Find ("FBtn");
 		btn.GetComponent<SpriteRenderer> ().sprite = sprite;

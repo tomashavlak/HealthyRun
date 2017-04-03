@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class EndGame : MonoBehaviour {
-	void Start () {
+    // hlídá konec hry. Jakmile nastane, přesune objekty na nulové pozice a ukončí tím hru
+    void Start () {
         if (GameSync.endGame)
         {
             GameObject.Find("End").GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 280);

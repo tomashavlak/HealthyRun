@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+
 public class BannerArr
 {
     public string id { get; set; }
@@ -17,14 +18,15 @@ public class BannerObj
 
 public class Banner : MonoBehaviour {
     public static List<BannerArr> banners = new List<BannerArr>();
-    // Use this for initialization
+    
+    // pokusí se stáhnout aktuální verzi dat ze serveru a na konci provede předanou metodu
     void Start () {
         StartCoroutine(ServerConnect.getKnowBase(initBanner));
     }
 
+    // náhodně vybere banner naplní data
     public void initBanner()
     {
-        print(banners);
         System.Random rn = new System.Random();
         int part = rn.Next(0, (banners.Count));
 
